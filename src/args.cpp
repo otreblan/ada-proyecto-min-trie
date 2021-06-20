@@ -35,8 +35,8 @@ void ada::args::usage(int exit_code) const
 void ada::args::parse(int argc, char* argv[])
 {
 	int c;
-	static char shortopts[] = "hag";
-	static option options[] =
+	static const char shortopts[] = "hag";
+	static const option options[] =
 	{
 		{"help",       no_argument, nullptr, 'h'},
 		{"all-ptries", no_argument, nullptr, 'a'},
