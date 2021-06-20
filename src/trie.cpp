@@ -26,8 +26,11 @@ ada::trie::node ada::trie::next_node(node n, char c)
 	auto range = edges.equal_range(n);
 	for(auto it = range.first; it != range.second; it++)
 	{
-		if(f.find(*it) != f.end())
+		auto c_it = f.find(*it);
+		if(c_it != f.end() && c_it->second == c)
+		{
 			return it->second;
+		}
 	}
 
 	// New node
