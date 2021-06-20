@@ -17,6 +17,7 @@
 #include <iostream>
 
 #include "args.hpp"
+#include "permutation.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -28,6 +29,15 @@ int main(int argc, char* argv[])
 	for(const auto& str: a.S)
 	{
 		std::cout << str << '\n';
+	}
+
+	for(const auto& pi: ada::permutation(a.m))
+	{
+		for(const auto& i: pi)
+		{
+			std::cout << i << ' ';
+		}
+		std::cout << '\n';
 	}
 
 	return EXIT_SUCCESS;

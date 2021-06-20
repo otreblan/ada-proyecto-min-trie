@@ -32,8 +32,27 @@ void ada::args::usage(int exit_code) const
 	exit(exit_code);
 }
 
+bool ada::args::check_S() const
+{
+	if(S.empty())
+		return false;
+
+	size_t size = S.front().size();
+
+	for(const auto& str: S)
+	{
+		if(size != str.size())
+			return false;
+	}
+
+	return true;
+}
+
 void ada::args::parse(int argc, char* argv[])
 {
+	if(argc < 2)
+		usage(EXIT_FAILURE);
+
 	int c;
 	static const char shortopts[] = "hag";
 	static const option options[] =
@@ -69,4 +88,12 @@ void ada::args::parse(int argc, char* argv[])
 	{
 		S.emplace_back(argv[i]);
 	}
+
+	if(!check_S())
+	{
+		std::cerr << "Bad S\n";
+		exit(EXIT_FAILURE);
+	}
+
+	m = S.front().size();
 }

@@ -14,34 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with min-trie.  If not, see <http://www.gnu.org/licenses/>.
 
-#pragma once
+#include <numeric>
+#include <iostream>
 
-#include <string>
-#include <vector>
+#include "permutation.hpp"
 
-namespace ada
+const ada::permutation::iterator ada::permutation::begin()
 {
+	return {&v};
+}
 
-enum class trie_action
+const ada::permutation::iterator ada::permutation::end()
 {
-	all_ptries,
-	greedy
-};
+	return {nullptr};
+}
 
-struct args
+ada::permutation::permutation(size_t h):
+	v(h)
 {
-private:
-	[[noreturn]]
-	void usage(int exit_code) const;
-
-	bool check_S() const;
-
-public:
-	trie_action action = trie_action::all_ptries;
-	std::vector<std::string> S;
-	size_t m;
-
-	void parse(int argc, char* argv[]);
-};
-
-};
+	std::iota(v.begin(), v.end(), 0);
+}
