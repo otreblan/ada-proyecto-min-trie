@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 
 	a.parse(argc, argv);
 
-	std::cout << ada::trie(a.S);
+	std::cout << ada::trie(a.S, {1, 0, 2});
 
 	return EXIT_SUCCESS;
 }
