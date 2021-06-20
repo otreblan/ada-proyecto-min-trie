@@ -16,6 +16,7 @@
 
 #include <numeric>
 #include <cassert>
+#include <iostream>
 
 #include "trie.hpp"
 
@@ -79,4 +80,35 @@ ada::trie::trie(const std::vector<std::string>& S, const std::vector<size_t>& p)
 	{
 		ptrie_internal(S, p);
 	}
+}
+
+std::ostream& ada::operator<<(std::ostream& os, const ada::trie& t)
+{
+	os <<
+		"digraph D {\n"
+		"\tforcelabels=true;\n"
+	;
+
+	os << "\n\t//Nodes\n";
+	for(const auto& n: t.nodes)
+	{
+		os << '\t' << n << " [label=\"\"];\n";
+	}
+
+	os << "\n\t//Edges\n";
+	for(const auto& e: t.edges)
+	{
+		os
+			<< '\t'
+			<< e.first
+			<< " -> "
+			<< e.second
+			<< " [label=\""
+			<< t.f.at(e)
+			<< "\"];\n"
+		;
+	}
+
+	os << "}\n";
+	return os;
 }

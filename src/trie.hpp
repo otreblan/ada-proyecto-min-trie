@@ -43,6 +43,11 @@ private:
 public:
 	trie();
 	trie(const std::vector<std::string>& S, const std::vector<size_t>& p = {});
+
+	friend std::ostream& operator<<(std::ostream& os, const trie& t);
 };
 
+std::ostream& operator<<(std::ostream& os, const trie& t);
+
 };
+
