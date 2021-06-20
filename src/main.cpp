@@ -18,6 +18,7 @@
 
 #include "args.hpp"
 #include "permutation.hpp"
+#include "trie.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -25,20 +26,7 @@ int main(int argc, char* argv[])
 
 	a.parse(argc, argv);
 
-	std::cout << "S:\n";
-	for(const auto& str: a.S)
-	{
-		std::cout << str << '\n';
-	}
-
-	for(const auto& pi: ada::permutation(a.m))
-	{
-		for(const auto& i: pi)
-		{
-			std::cout << i << ' ';
-		}
-		std::cout << '\n';
-	}
+	ada::trie t(a.S);
 
 	return EXIT_SUCCESS;
 }

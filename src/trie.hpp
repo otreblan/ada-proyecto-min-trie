@@ -16,7 +16,10 @@
 
 #pragma once
 
+#include <map>
+#include <set>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace ada
@@ -25,6 +28,17 @@ namespace ada
 class trie
 {
 private:
+	using node = int;
+	static const node root;
+
+	std::set<node> nodes;
+	std::unordered_multimap<node, node> edges;
+
+	std::map<std::pair<node, node>, char> f;
+
+	node next_node(node n, char c);
+	void add_s(const std::string& s, const std::vector<size_t>& p);
+
 	void ptrie_internal(const std::vector<std::string>& S, const std::vector<size_t>& p);
 public:
 	trie();

@@ -19,11 +19,44 @@
 
 #include "trie.hpp"
 
+const ada::trie::node ada::trie::root = 0;
+
+ada::trie::node ada::trie::next_node(node n, char c)
+{
+	auto range = edges.equal_range(n);
+	for(auto it = range.first; it != range.second; it++)
+	{
+		if(f.find(*it) != f.end())
+			return it->second;
+	}
+
+	// New node
+	node next_n = nodes.size();
+
+	nodes.insert(next_n);
+	edges.emplace(n, next_n);
+	f[{n, next_n}] = c;
+
+	return next_n;
+}
+
+void ada::trie::add_s(const std::string& s, const std::vector<size_t>& p)
+{
+	node n = root;
+
+	if(nodes.empty())
+		nodes.insert(root);
+
+	for(char i: p)
+		n = next_node(n, s.at(i));
+}
+
 void ada::trie::ptrie_internal(const std::vector<std::string>& S, const std::vector<size_t>& p)
 {
 	assert(S.front().size() == p.size());
 
-	// TODO
+	for(const auto& s: S)
+		add_s(s, p);
 }
 
 ada::trie::trie(){};
