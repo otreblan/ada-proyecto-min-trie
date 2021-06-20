@@ -87,6 +87,9 @@ std::ostream& ada::operator<<(std::ostream& os, const ada::trie& t)
 	os <<
 		"digraph D {\n"
 		"\tforcelabels=true;\n"
+		"\tlabelloc=\"t\";\n"
+		"\tlabeljust=\"l\";\n"
+		"\tlabel=\"# aristas: " << t.edges.size() << "\";\n"
 	;
 
 	os << "\n\t//Nodes\n";
