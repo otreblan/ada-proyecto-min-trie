@@ -14,21 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with min-trie.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <iostream>
+#pragma once
 
-#include "args.hpp"
+#include <string>
+#include <vector>
 
-int main(int argc, char* argv[])
+namespace ada
 {
-	ada::args a;
 
-	a.parse(argc, argv);
+enum class trie_action
+{
+	all_ptries,
+	greedy
+};
 
-	std::cout << "S:\n";
-	for(const auto& str: a.S)
-	{
-		std::cout << str << '\n';
-	}
+struct args
+{
+private:
+	[[noreturn]]
+	void usage(int exit_code) const;
 
-	return EXIT_SUCCESS;
-}
+public:
+	trie_action action = trie_action::all_ptries;
+	std::vector<std::string> S;
+
+	void parse(int argc, char* argv[]);
+};
+
+};
