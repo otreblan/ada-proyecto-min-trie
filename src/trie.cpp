@@ -103,7 +103,7 @@ std::vector<size_t> ada::trie::greedy_p(const std::vector<std::string>& S)
 
 	for(size_t i = 0; i < m-1; i++)
 	{
-		if(h(i+1) < h(i))
+		if(h(p[i+1]) < h(p[i]))
 			std::swap(p[i], p[i+1]);
 	}
 
