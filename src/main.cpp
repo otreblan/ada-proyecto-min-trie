@@ -14,7 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with min-trie.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <fstream>
 #include <iostream>
+#include <string>
 
 #include "args.hpp"
 #include "permutation.hpp"
@@ -22,11 +24,33 @@
 
 int main(int argc, char* argv[])
 {
+	using namespace std::string_literals;
+
 	ada::args a;
 
 	a.parse(argc, argv);
 
-	std::cout << ada::trie::greedy(a.S);
+	switch(a.action)
+	{
+		case ada::trie_action::all_ptries:
+		{
+			int i = 0;
+			for(const auto& p: ada::permutation(a.m))
+			{
+				std::ofstream ofs("ptrie"s + std::to_string(i) + ".gv");
+
+				if(ofs.is_open())
+					ofs << ada::trie(a.S, p);
+
+				i++;
+			}
+			break;
+		}
+
+		case ada::trie_action::greedy:
+			std::cout << ada::trie::greedy(a.S);
+			break;
+	}
 
 	return EXIT_SUCCESS;
 }
