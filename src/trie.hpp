@@ -40,9 +40,13 @@ private:
 	void add_s(const std::string& s, const std::vector<size_t>& p);
 
 	void ptrie_internal(const std::vector<std::string>& S, const std::vector<size_t>& p);
+
+	static std::vector<size_t> greedy_p(const std::vector<std::string>& S);
 public:
 	trie();
 	trie(const std::vector<std::string>& S, const std::vector<size_t>& p = {});
+
+	static trie greedy(const std::vector<std::string>& S);
 
 	friend std::ostream& operator<<(std::ostream& os, const trie& t);
 };

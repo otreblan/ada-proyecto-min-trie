@@ -82,6 +82,39 @@ ada::trie::trie(const std::vector<std::string>& S, const std::vector<size_t>& p)
 	}
 }
 
+std::vector<size_t> ada::trie::greedy_p(const std::vector<std::string>& S)
+{
+	if(S.empty())
+		return {};
+
+	auto h = [&](size_t i)
+	{
+		std::set<char> sigma;
+		for(const auto& s: S)
+			sigma.insert(s.at(i));
+
+		return sigma.size();
+	};
+
+	size_t m = S.front().size();
+
+	std::vector<size_t> p(m);
+	std::iota(p.begin(), p.end(), 0);
+
+	for(size_t i = 0; i < m-1; i++)
+	{
+		if(h(i+1) < h(i))
+			std::swap(p[i], p[i+1]);
+	}
+
+	return p;
+}
+
+ada::trie ada::trie::greedy(const std::vector<std::string>& S)
+{
+	return trie(S, greedy_p(S));
+}
+
 std::ostream& ada::operator<<(std::ostream& os, const ada::trie& t)
 {
 	os <<
