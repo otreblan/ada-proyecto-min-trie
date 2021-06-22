@@ -12,6 +12,10 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 
+#CLion.gitignore
+cmake-build-debug
+.idea
+
 # CMake.patch:
 # External projects
 *-prefix/
