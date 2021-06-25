@@ -14,9 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with min-trie.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <numeric>
+#include <algorithm>
 #include <cassert>
 #include <iostream>
+#include <numeric>
 
 #include "trie.hpp"
 
@@ -101,11 +102,13 @@ std::vector<size_t> ada::trie::greedy_p(const std::vector<std::string>& S)
 	std::vector<size_t> p(m);
 	std::iota(p.begin(), p.end(), 0);
 
-	for(size_t i = 0; i < m-1; i++)
-	{
-		if(h(p[i+1]) < h(p[i]))
-			std::swap(p[i], p[i+1]);
-	}
+	// Los índices con menos caracteres al comienzo.
+	std::sort(p.begin(), p.end(),
+		[&](size_t l, size_t r)
+		{
+			return h(l) < h(r);
+		}
+	);
 
 	return p;
 }
