@@ -20,4 +20,5 @@ target_sources(${PROJECT_NAME}
 		main.cpp
 		permutation.cpp
 		trie.cpp
+		trie2.cpp
 )

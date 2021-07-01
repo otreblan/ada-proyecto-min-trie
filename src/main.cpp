@@ -21,6 +21,7 @@
 #include "args.hpp"
 #include "permutation.hpp"
 #include "trie.hpp"
+#include "trie2.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -40,7 +41,14 @@ int main(int argc, char* argv[])
 				std::ofstream ofs("ptrie"s + std::to_string(i) + ".gv");
 
 				if(ofs.is_open())
-					ofs << ada::trie(a.S, p);
+				{
+					ofs << ada::trie2(a.S, p);
+				}
+				else
+				{
+					std::cerr << "no\n";
+				}
+					//ofs << ada::trie(a.S, p);
 
 				i++;
 			}
