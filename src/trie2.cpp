@@ -14,7 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with min-trie.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <algorithm>
 #include <iostream>
+#include <numeric>
 
 #include "trie2.hpp"
 
@@ -122,4 +124,39 @@ std::ostream& ada::operator<<(std::ostream& os, const trie2& t)
 
 	os << "}\n";
 	return os;
+}
+
+std::vector<size_t> ada::trie2::greedy_p(const std::vector<std::string>& S)
+{
+	if(S.empty())
+		return {};
+
+	auto h = [&](size_t i)
+	{
+		std::set<char> sigma;
+		for(const auto& s: S)
+			sigma.insert(s.at(i));
+
+		return sigma.size();
+	};
+
+	size_t m = S.front().size();
+
+	std::vector<size_t> p(m);
+	std::iota(p.begin(), p.end(), 0);
+
+	// Los índices con menos caracteres al comienzo.
+	std::sort(p.begin(), p.end(),
+		[&](size_t l, size_t r)
+		{
+			return h(l) < h(r);
+		}
+	);
+
+	return p;
+}
+
+ada::trie2 ada::trie2::greedy(const std::vector<std::string>& S)
+{
+	return trie2(S, greedy_p(S));
 }

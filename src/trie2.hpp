@@ -40,12 +40,15 @@ private:
 
 	void add_string(std::string_view str, const std::vector<size_t>& p);
 
+	static std::vector<size_t> greedy_p(const std::vector<std::string>& S);
 public:
+
 	trie2(const std::vector<std::string>& S, const std::vector<size_t>& p);
 	size_t at(ssize_t node, char c) const;
 	friend std::ostream& operator<<(std::ostream& os, const trie2& t);
 
 	void print_edges(std::ostream& os, size_t node) const;
+	static trie2 greedy(const std::vector<std::string>& S);
 };
 
 std::ostream& operator<<(std::ostream& os, const trie2& t);

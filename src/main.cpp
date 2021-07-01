@@ -41,14 +41,7 @@ int main(int argc, char* argv[])
 				std::ofstream ofs("ptrie"s + std::to_string(i) + ".gv");
 
 				if(ofs.is_open())
-				{
 					ofs << ada::trie2(a.S, p);
-				}
-				else
-				{
-					std::cerr << "no\n";
-				}
-					//ofs << ada::trie(a.S, p);
 
 				i++;
 			}
@@ -56,7 +49,7 @@ int main(int argc, char* argv[])
 		}
 
 		case ada::trie_action::greedy:
-			std::cout << ada::trie::greedy(a.S);
+			std::cout << ada::trie2::greedy(a.S);
 			break;
 	}
 
