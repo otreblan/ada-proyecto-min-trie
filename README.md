@@ -17,3 +17,5 @@ make
 
 ./min-trie
 ```
+
+![image](https://user-images.githubusercontent.com/39320840/124138398-3bc3f600-da4c-11eb-9402-eeffdacbc080.png)

@@ -17,7 +17,7 @@
 cmake_minimum_required(VERSION 3.13.0)
 
 project(min-trie
-	VERSION 0.0.0
+	VERSION 1.0.0
 	DESCRIPTION "Min trie"
 	HOMEPAGE_URL "https://github.com/otreblan/ada-proyecto-min-trie"
 )
