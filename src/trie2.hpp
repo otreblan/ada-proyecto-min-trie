@@ -49,6 +49,7 @@ public:
 
 	void print_edges(std::ostream& os, size_t node) const;
 	static trie2 greedy(const std::vector<std::string>& S);
+	static int dp(const std::vector<std::string>& S);
 };
 
 std::ostream& operator<<(std::ostream& os, const trie2& t);
