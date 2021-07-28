@@ -21,7 +21,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <limits>
+#include <climits>
 
 namespace ada
 {
