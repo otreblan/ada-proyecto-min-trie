@@ -161,37 +161,54 @@ ada::trie2 ada::trie2::greedy(const std::vector<std::string>& S)
 	return trie2(S, greedy_p(S));
 }
 
+int ada::trie2::dp_rec(const std::vector<std::string> &S, int i, int j) {
+    if (i == j)
+        return 0;
+    auto R = get_r(S, i, j);
+    int min = INT_MAX;
+    for (const auto& r : R) {
+        int sum = 0;
+        for (auto p : get_c(S, i, j, r)) {
+            sum += dp_rec(S, p.first, p.second) + get_k(S, p.first, p.second).size() - get_k(S, i, j).size();
+        }
+        if (sum < min) min = sum;
+    }
+    return min;
+}
+
+std::set<int> ada::trie2::get_k(const std::vector<std::string> &S, int i, int j) {
+    std::set<int> k_set;
+    for (int r = i;  r < j; r++) {
+        std::set<char> temp_set;
+        for (const auto& s : S)
+            temp_set.insert(s[r]);
+        if (temp_set.size() == 1) k_set.insert(r);
+    }
+    return k_set;
+}
+
+std::set<int> ada::trie2::get_r(const std::vector<std::string> &S, int i, int j) {
+    std::set<int> r_set;
+    for (int x = i; x < j; x++) r_set.insert(x);
+    auto k_set = get_k(S, i, j);
+    for (auto y : k_set) {
+        r_set.erase(y);
+    }
+    return r_set;
+}
+
+std::vector<std::pair<int, int>> ada::trie2::get_c(const std::vector<std::string> &S, int i, int j, int r) {
+    std::vector<std::pair<int,int>> c_set;
+    for (int x = i; x < j-1; x++) {
+        auto start = x;
+        while (S[x][r] == S[x+1][r]) {
+            x++;
+        }
+        c_set.emplace_back(start, x);
+    }
+    return c_set;
+}
 
 int ada::trie2::dp(const std::vector<std::string> &S) {
-    auto m = S[0].size();
-
-    auto k = [&](int i, int j) {
-        std::set<int> k_set;
-        for (int r = 0;  r < m; r++) {
-            std::set<char> temp_set;
-            for (const auto& s : S)
-                temp_set.insert(s[r]);
-            if (temp_set.size() == 1) k_set.insert(r);
-        }
-        return k_set;
-    };
-
-    auto r = [&](int i, int j) {
-        std::set<int> r_set;
-        for (int x = 0; x < m; x++) r_set.insert(x);
-        auto k_set = k(i, j);
-        for (auto y : k_set) {
-            r_set.erase(y);
-        }
-        return r_set;
-    };
-
-    auto c = [&](int i, int j, int r) {
-        std::set<std::pair<int,int>> c_set;
-
-        return c_set;
-    };
-
-
-    return k(0, S.size() - 1).size();
+    return dp_rec(S, 0, S.size() - 1) + get_k(S, 0, S.size() - 1).size();
 }

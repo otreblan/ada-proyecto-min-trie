@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <limits>
 
 namespace ada
 {
@@ -41,6 +42,11 @@ private:
 	void add_string(std::string_view str, const std::vector<size_t>& p);
 
 	static std::vector<size_t> greedy_p(const std::vector<std::string>& S);
+
+	static int dp_rec(const std::vector<std::string>& S, int i, int j);
+	static std::set<int> get_k(const std::vector<std::string> &S, int i, int j);
+	static std::set<int> get_r(const std::vector<std::string> &S, int i, int j);
+	static std::vector<std::pair<int,int>> get_c(const std::vector<std::string> &S, int i, int j, int r);
 public:
 
 	trie2(const std::vector<std::string>& S, const std::vector<size_t>& p);
