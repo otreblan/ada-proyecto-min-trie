@@ -178,10 +178,10 @@ int ada::trie2::dp_rec(const std::vector<std::string> &S, int i, int j) {
 
 std::set<int> ada::trie2::get_k(const std::vector<std::string> &S, int i, int j) {
     std::set<int> k_set;
-    for (int r = i;  r < j; r++) {
+    for (int r = 0;  r <= S[0].size() - 1; r++) {
         std::set<char> temp_set;
-        for (const auto& s : S)
-            temp_set.insert(s[r]);
+        for (int k = i; k <= j; k++)
+            temp_set.insert(S[k][r]);
         if (temp_set.size() == 1) k_set.insert(r);
     }
     return k_set;
@@ -189,7 +189,7 @@ std::set<int> ada::trie2::get_k(const std::vector<std::string> &S, int i, int j)
 
 std::set<int> ada::trie2::get_r(const std::vector<std::string> &S, int i, int j) {
     std::set<int> r_set;
-    for (int x = i; x < j; x++) r_set.insert(x);
+    for (int x = 0; x <= S[0].size() - 1; x++) r_set.insert(x);
     auto k_set = get_k(S, i, j);
     for (auto y : k_set) {
         r_set.erase(y);
@@ -199,9 +199,9 @@ std::set<int> ada::trie2::get_r(const std::vector<std::string> &S, int i, int j)
 
 std::vector<std::pair<int, int>> ada::trie2::get_c(const std::vector<std::string> &S, int i, int j, int r) {
     std::vector<std::pair<int,int>> c_set;
-    for (int x = i; x < j-1; x++) {
+    for (int x = i; x <= j; x++) {
         auto start = x;
-        while (S[x][r] == S[x+1][r]) {
+        while (x < j && S[x][r] == S[x+1][r]) {
             x++;
         }
         c_set.emplace_back(start, x);
