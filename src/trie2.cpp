@@ -161,7 +161,7 @@ ada::trie2 ada::trie2::greedy(const std::vector<std::string>& S)
 	return trie2(S, greedy_p(S));
 }
 
-int ada::trie2::dp_rec(const std::vector<std::string> &S, int i, int j) {
+int ada::trie2::dp_rec_p(const std::vector<std::string> &S, int i, int j) {
     if (i == j)
         return 0;
     auto R = get_r(S, i, j);
@@ -169,7 +169,7 @@ int ada::trie2::dp_rec(const std::vector<std::string> &S, int i, int j) {
     for (const auto& r : R) {
         int sum = 0;
         for (auto p : get_c(S, i, j, r)) {
-            sum += dp_rec(S, p.first, p.second) + get_k(S, p.first, p.second).size() - get_k(S, i, j).size();
+            sum += dp_rec_p(S, p.first, p.second) + get_k(S, p.first, p.second).size() - get_k(S, i, j).size();
         }
         if (sum < min) min = sum;
     }
@@ -178,7 +178,7 @@ int ada::trie2::dp_rec(const std::vector<std::string> &S, int i, int j) {
 
 std::set<int> ada::trie2::get_k(const std::vector<std::string> &S, int i, int j) {
     std::set<int> k_set;
-    for (int r = 0;  r <= S[0].size() - 1; r++) {
+    for (int r = 0;  r <= get_m(S) - 1; r++) {
         std::set<char> temp_set;
         for (int k = i; k <= j; k++)
             temp_set.insert(S[k][r]);
@@ -189,7 +189,7 @@ std::set<int> ada::trie2::get_k(const std::vector<std::string> &S, int i, int j)
 
 std::set<int> ada::trie2::get_r(const std::vector<std::string> &S, int i, int j) {
     std::set<int> r_set;
-    for (int x = 0; x <= S[0].size() - 1; x++) r_set.insert(x);
+    for (int x = 0; x <= get_m(S) - 1; x++) r_set.insert(x);
     auto k_set = get_k(S, i, j);
     for (auto y : k_set) {
         r_set.erase(y);
@@ -209,6 +209,56 @@ std::vector<std::pair<int, int>> ada::trie2::get_c(const std::vector<std::string
     return c_set;
 }
 
+int ada::trie2::dp_rec(const std::vector<std::string> &S) {
+    return dp_rec_p(S, 0, S.size() - 1) + get_k(S, 0, S.size() - 1).size();
+}
+
+int ada::trie2::dp_memo_p(const std::vector<std::string> &S, int i, int j, std::vector<std::vector<int>> &M) {
+    if (i == j)
+        return 0;
+    if (M[i][j] != -1)
+        return M[i][j];
+    auto R = get_r(S, i, j);
+    int min = INT_MAX;
+    for (const auto& r : R) {
+        int sum = 0;
+        for (auto p : get_c(S, i, j, r)) {
+            sum += dp_rec_p(S, p.first, p.second) + get_k(S, p.first, p.second).size() - get_k(S, i, j).size();
+        }
+        if (sum < min) {
+            min = sum;
+        }
+    }
+    M[i][j] = min;
+    return min;
+}
+
+int ada::trie2::dp_memo(const std::vector<std::string> &S) {
+    auto M = new std::vector<std::vector<int>>(S.size(), std::vector<int>(S.size(), -1));
+
+    return dp_memo_p(S, 0, S.size() - 1, *M) + get_k(S, 0, S.size() - 1).size();
+}
+
 int ada::trie2::dp(const std::vector<std::string> &S) {
-    return dp_rec(S, 0, S.size() - 1) + get_k(S, 0, S.size() - 1).size();
+    auto M = new std::vector<std::vector<int>>(S.size(), std::vector<int>(S.size(), -1));
+    // TODO check bounds and make DAG. Not working
+    for (int i = 0; i < S.size(); i++) {
+        for (int j = i; j < S.size(); j++) {
+
+            auto R = get_r(S, i, j);
+            int min = INT_MAX;
+            for (const auto& r : R) {
+                int sum = 0;
+                for (auto p : get_c(S, i, j, r)) {
+                    sum += (*M)[p.first][p.second] + get_k(S, p.first, p.second).size() - get_k(S, i, j).size();
+                }
+                if (sum < min) {
+                    min = sum;
+                }
+            }
+            (*M)[i][j] = min;
+        }
+    }
+
+    return (*M)[0][S.size()-1];
 }

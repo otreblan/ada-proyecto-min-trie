@@ -43,7 +43,8 @@ private:
 
 	static std::vector<size_t> greedy_p(const std::vector<std::string>& S);
 
-	static int dp_rec(const std::vector<std::string>& S, int i, int j);
+	static int dp_rec_p(const std::vector<std::string>& S, int i, int j);
+	static int dp_memo_p(const std::vector<std::string>& S, int i, int j, std::vector<std::vector<int>>& M);
 	static std::set<int> get_k(const std::vector<std::string> &S, int i, int j);
 	static std::set<int> get_r(const std::vector<std::string> &S, int i, int j);
 	static std::vector<std::pair<int,int>> get_c(const std::vector<std::string> &S, int i, int j, int r);
@@ -55,6 +56,8 @@ public:
 
 	void print_edges(std::ostream& os, size_t node) const;
 	static trie2 greedy(const std::vector<std::string>& S);
+	static int dp_rec(const std::vector<std::string>& S);
+	static int dp_memo(const std::vector<std::string>& S);
 	static int dp(const std::vector<std::string>& S);
 };
 
